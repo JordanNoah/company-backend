@@ -10,7 +10,8 @@ export default class AppRoutes {
                 info: {
                     Title: 'Service Pleasures of World',
                     Version: '0.0.1',
-                    Author: 'Jordan Ubilla',
+                    Developer: 'Jordan Ubilla',
+                    Author: 'Jorge Estrella',
                 }
             });
         });

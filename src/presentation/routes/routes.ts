@@ -8,9 +8,9 @@ export default class AppRoutes {
             return c.json({
                 status: "success",
                 info: {
-                    Title: 'Core Delegate Service',
-                    Version: '2.0.0',
-                    Author: 'Teaching Management',
+                    Title: 'Service Pleasures of World',
+                    Version: '0.0.1',
+                    Author: 'Jordan Ubilla',
                 }
             });
         });

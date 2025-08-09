@@ -1,0 +1,1 @@
+export type RefreshStatus = 'VALID' | 'EXPIRED' | 'REVOKED' | 'REUSED' | 'NOT_FOUND';

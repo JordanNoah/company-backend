@@ -3,4 +3,6 @@ import CompanyEntity from "@/domain/entity/company.entity";
 
 export default abstract class CompanyDataSource {
     public abstract upsertCompany(company: CompanyDto): Promise<CompanyEntity>;
+    public abstract createCompany(company: CompanyDto): Promise<CompanyEntity>;
+    public abstract findByDto(company: CompanyDto): Promise<CompanyEntity | null>;
 }

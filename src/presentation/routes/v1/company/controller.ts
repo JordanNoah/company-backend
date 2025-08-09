@@ -4,16 +4,20 @@ import CompanyRepositoryImpl from "@/infrastructure/repository/company.repositor
 import { Context } from "hono";
 
 export default class CompanyController {
-    private readonly companyRepositoryImpl = new  CompanyRepositoryImpl(
+    public readonly companyRepositoryImpl = new CompanyRepositoryImpl(
         new CompanyDataSourceImpl()
     );
 
-    public async upsert(c: Context) {
+    public upsert = async(c: Context) => {
         try {
             const [error, companyDto] = CompanyDto.fromJson(await c.req.json());
             if (error) return c.json({ error }, 400);
-            return c.json(await this.companyRepositoryImpl.upsertCompany(companyDto!));
+            const company = await this.companyRepositoryImpl.findByDto(companyDto!);
+            if (company) return c.json(company, 200);
+            return c.json(await this.companyRepositoryImpl.upsertCompany(companyDto!), 201);
         } catch (error) {
+            console.log(error);
+            
             return c.json({ error },500);
         }
     }

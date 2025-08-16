@@ -15,4 +15,7 @@ export default class CompanyRepositoryImpl implements CompanyRepository {
     public findByDto(company: CompanyDto): Promise<CompanyEntity | null> {
         return this.companyDataSource.findByDto(company);
     }
+    public findByEmailAndPassword(email: string, password: string): Promise<CompanyEntity | null> {
+        return this.companyDataSource.findByEmailAndPassword(email, password);
+    }
 }

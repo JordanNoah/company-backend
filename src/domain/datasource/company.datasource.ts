@@ -5,4 +5,5 @@ export default abstract class CompanyDataSource {
     public abstract upsertCompany(company: CompanyDto): Promise<CompanyEntity>;
     public abstract createCompany(company: CompanyDto): Promise<CompanyEntity>;
     public abstract findByDto(company: CompanyDto): Promise<CompanyEntity | null>;
+    public abstract findByEmailAndPassword(email: string, password: string): Promise<CompanyEntity | null>;
 }

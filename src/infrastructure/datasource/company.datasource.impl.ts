@@ -3,7 +3,7 @@ import { CompanyDto } from "@/domain/dto/company.dto";
 import CompanyEntity from "@/domain/entity/company.entity";
 import { CustomError } from "@/shared/custom.error";
 import { CompanySequelize } from "../database/model/company";
-import { hashPassword } from "@/shared/function.shared";
+import { hashPassword, verifyPassword } from "@/shared/function.shared";
 import { Op } from "sequelize";
 
 export default class CompanyDataSourceImpl implements CompanyDataSource {
@@ -11,7 +11,7 @@ export default class CompanyDataSourceImpl implements CompanyDataSource {
         try {
             const companyDb = await CompanySequelize.findOne({
                 where: {
-                    [Op.or]:[
+                    [Op.or]: [
                         { identificationNumber: company.identificationNumber },
                         { socialReason: company.socialReason },
                         { commercialName: company.commercialName },
@@ -57,6 +57,24 @@ export default class CompanyDataSourceImpl implements CompanyDataSource {
                 passwordHash: await hashPassword(company.password)
             });
             return CompanyEntity.fromRow(companyDb);
+        } catch (error) {
+            if (error instanceof CustomError) {
+                throw error;
+            }
+            throw CustomError.internalServer();
+        }
+    }
+    public async findByEmailAndPassword(email: string, password: string): Promise<CompanyEntity | null> {
+        try {
+            const companyDb = await CompanySequelize.findOne({
+                where: {
+                    email: email
+                }
+            });
+
+            if (!companyDb) return null;
+            const isValid = await verifyPassword(companyDb.passwordHash, password);
+            return isValid ? CompanyEntity.fromRow(companyDb) : null;
         } catch (error) {
             if (error instanceof CustomError) {
                 throw error;

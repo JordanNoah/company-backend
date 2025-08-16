@@ -7,6 +7,7 @@ export default class CompanyRoutes {
         const controller = new CompanyController();
 
         routes.post('/', controller.upsert);
+        routes.post('/login', controller.login);
         return routes;
     }
 }
